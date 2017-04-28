@@ -31,7 +31,7 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String nombre;
     private String apellidos;
-	@Column
+	@Column(nullable = false)
 	private String contrasena;
     @Column(nullable = false)
     private String email;
@@ -48,6 +48,14 @@ public class Usuario implements Serializable {
     @OneToMany
     private List<EntradaEvento> entradas;
 
+	public Usuario(String nombre, String contrasena, String email, String tipoUsuario) {
+		this.nombre = nombre;
+		this.contrasena = contrasena;
+		this.email = email;
+		this.tipoUsuario = tipoUsuario;
+	}
+
+	
     public Long getId() {
         return id;
     }
