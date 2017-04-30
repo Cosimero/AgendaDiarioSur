@@ -11,16 +11,19 @@
         Login Page
         <br />
 		<c:choose>
-			<c:when test="#{!login.isVerificado()}">
-				<h:form  onsubmit="return = validateBasic()">
+			<c:when test="#{controlAutorizacion.usuario==null}">
+				<h:form>
 					<h:inputText id="nombre" value="#{login.usuario}"/>
 					<br />
 					<h:inputSecret id="pass" value="#{login.contrasenia}"/>
+					<br />
 					<h:commandButton value="Iniciar Sesion" action="#{login.autenticar()}"/>
 				</h:form>
 			</c:when>
 			<c:otherwise>
-				<h1>Hola</h1>
+				<h:form>
+				<h:commandLink id="close" action="#{login.close()}" value="Close" immediate="true" />
+				</h:form>
 			</c:otherwise>
 		</c:choose>
 

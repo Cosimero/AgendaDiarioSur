@@ -4,12 +4,14 @@
  */
 package uma.informatica.sii.diarioSur.beans;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import uma.informatica.sii.diarioSur.Usuario;
 
 /**
@@ -17,25 +19,24 @@ import uma.informatica.sii.diarioSur.Usuario;
  * @author francis
  */
 @Named(value = "login")
-@SessionScoped
+@RequestScoped
 public class Login {
 
-    public String usuario;
-    public String contrasenia;
-	private boolean verificado;
-
-	List<Usuario> usuarios;
+    private String usuario;
+    private String contrasenia;
+    private List<Usuario> usuarios;
     
+    @Inject
+    private ControlAutorizacion ctrl;
+
     /**
      * Creates a new instance of Login
      */
     public Login() {
-        usuarios = new ArrayList<>();
-		usuarios.add(new Usuario("1", "1", "1", "Normal"));
-		verificado=false;
-		usuario="";
-		contrasenia="";
-	}
+        usuarios = new ArrayList<Usuario>();
+        usuarios.add(new Usuario("pepe", "asdf", "a","a"));
+        usuarios.add(new Usuario("manolo", "qwer", "a","a"));
+    }
 
     public String getUsuario() {
         return usuario;
@@ -52,35 +53,25 @@ public class Login {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
+	public String close() throws IOException{
+		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?faces-redirect=true");
+		 return "index.xhtml?faces-redirect=true";
+	}
 
     public String autenticar() {
         // Implementar este método
         FacesContext ctx = FacesContext.getCurrentInstance();
         String devolver=null;
-        Usuario u=buscarUsuario(usuario);
+        for(Usuario u:usuarios){
             if(u.getNombre().equals(usuario)){
                 if(u.getContrasena().equals(contrasenia)){
-                    verificado=true;
-                    devolver="index.html";//TODO
+                    ctrl.setUsuario(u);
+                    devolver=ctrl.home();
                 }
+                break;
             }
-        
+        }
         if(devolver==null) ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o contraseña incorrectos", "Usuario o contraseña incorrectos"));
         return devolver;
     }
-
-	public boolean isVerificado() {
-		return verificado;
-	}
-	
-	private Usuario buscarUsuario(String nombre){
-		Usuario buscar=null;
-		for(Usuario u:usuarios){
-			if(u.getNombre().equals(nombre)){
-				buscar= u;
-				break;
-			}
-		}
-		return buscar;
-	}
 }
