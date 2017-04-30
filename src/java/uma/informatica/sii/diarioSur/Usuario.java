@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +26,12 @@ import javax.persistence.TemporalType;
 @Entity
 public class Usuario implements Serializable {
 
+	public enum tipoUsuario{
+		PERIODISTA,
+		NORMAL,
+		ADMINISTRADOR
+	}
+	
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +44,7 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private String tipoUsuario;
+    
     private String dni;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
@@ -47,8 +55,11 @@ public class Usuario implements Serializable {
     private List<CalificacionEvento> calificaciones;
     @OneToMany
     private List<EntradaEvento> entradas;
+	@Enumerated(EnumType.ORDINAL)
+	private tipoUsuario tipoUsuario;
+	
 
-	public Usuario(String nombre, String contrasena, String email, String tipoUsuario) {
+	public Usuario(String nombre, String contrasena, String email, tipoUsuario tipoUsuario) {
 		this.nombre = nombre;
 		this.contrasena = contrasena;
 		this.email = email;
@@ -88,11 +99,11 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
-    public String getTipoUsuario() {
+    public tipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }
 
-    public void setTipoUsuario(String tipoUsuario) {
+    public void setTipoUsuario(tipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
 

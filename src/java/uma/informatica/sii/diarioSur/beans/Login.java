@@ -37,17 +37,24 @@ public class Login {
 	 */
 	public Login() throws IOException {
 		usuarios = new ArrayList<Usuario>();
-		usuarios.add(new Usuario("pepe", "asdf", "a", "a"));
-		usuarios.add(new Usuario("manolo", "qwer", "a", "a"));
+		usuarios.add(new Usuario("pepe", "asdf", "a", Usuario.tipoUsuario.NORMAL));
+		usuarios.add(new Usuario("manolo", "qwer", "a", Usuario.tipoUsuario.PERIODISTA));
 	}
 
 	@PostConstruct
 	public void close() {
+		/*
 		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+			if (ctrl.sesionIniciada()) {
+				System.out.println("Sesion YA iniciada");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+			}else{
+				System.out.println(ctrl.getUsuario().getNombre());
+			}
 		} catch (IOException ex) {
 			Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
 		}
+*/
 	}
 
 	public String getUsuario() {
