@@ -42,6 +42,9 @@ public class ControlAutorizacion implements Serializable {
         usuario = null;
         return "login.xhtml?faces-redirect=true";
     }
+	public boolean sesionIniciada(){
+		return usuario!=null;
+	}
 
     /**
      * Creates a new instance of ControlAutorizacion

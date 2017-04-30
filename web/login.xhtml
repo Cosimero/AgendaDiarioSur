@@ -11,7 +11,7 @@
         Login Page
         <br />
 		<c:choose>
-			<c:when test="#{controlAutorizacion.usuario==null}">
+			<c:when test="#{!controlAutorizacion.sesionIniciada()}">
 				<h:form>
 					<h:inputText id="nombre" value="#{login.usuario}"/>
 					<br />
@@ -22,7 +22,7 @@
 			</c:when>
 			<c:otherwise>
 				<h:form>
-				<h:commandLink id="close" action="#{login.close()}" value="Close" immediate="true" />
+				This should not be happening
 				</h:form>
 			</c:otherwise>
 		</c:choose>
