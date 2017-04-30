@@ -2,36 +2,40 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package uma.informatica.sii.diarioSur;
+package uma.informatica.sii.diarioSur.beans;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import uma.informatica.sii.diarioSur.Usuario;
 
 /**
  *
  * @author francis
  */
 @Named(value = "login")
-@RequestScoped
+@SessionScoped
 public class Login {
 
-    private String usuario;
-    private String contrasenia;
+    public String usuario;
+    public String contrasenia;
+	private boolean verificado;
 
-	@Inject
-	UserDB usuarios;
+	List<Usuario> usuarios;
     
     /**
      * Creates a new instance of Login
      */
     public Login() {
-        usuarios = new ArrayList<Usuario>();
-    }
+        usuarios = new ArrayList<>();
+		usuarios.add(new Usuario("1", "1", "1", "Normal"));
+		verificado=false;
+		usuario="";
+		contrasenia="";
+	}
 
     public String getUsuario() {
         return usuario;
@@ -53,16 +57,30 @@ public class Login {
         // Implementar este método
         FacesContext ctx = FacesContext.getCurrentInstance();
         String devolver=null;
-        Usuario u=usuarios.buscarUsuario(usuario);
-            if(u.equals(usuario)){
+        Usuario u=buscarUsuario(usuario);
+            if(u.getNombre().equals(usuario)){
                 if(u.getContrasena().equals(contrasenia)){
-                    ctrl.setUsuario(u);
-                    devolver=ctrl.home();
+                    verificado=true;
+                    devolver="index.html";//TODO
                 }
-                break;
             }
         
         if(devolver==null) ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o contraseña incorrectos", "Usuario o contraseña incorrectos"));
         return devolver;
     }
+
+	public boolean isVerificado() {
+		return verificado;
+	}
+	
+	private Usuario buscarUsuario(String nombre){
+		Usuario buscar=null;
+		for(Usuario u:usuarios){
+			if(u.getNombre().equals(nombre)){
+				buscar= u;
+				break;
+			}
+		}
+		return buscar;
+	}
 }
