@@ -5,15 +5,8 @@
 package uma.informatica.sii.diarioSur.beans;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import uma.informatica.sii.diarioSur.Usuario;
 
@@ -25,8 +18,8 @@ import uma.informatica.sii.diarioSur.Usuario;
 @RequestScoped
 public class Register {
 
-	private Usuario usuario;
 
+	private Usuario usuario;
 	@Inject
 	private ControlAutorizacion ctrl;
 
@@ -36,12 +29,17 @@ public class Register {
 	public Register() throws IOException {
 	}
 
-	@PostConstruct
-	public void close() {
-		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-		} catch (IOException ex) {
-			Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-		}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+
+	public String Registrar(){
+		ctrl.setUsuario(usuario);
+		return "index.html";
 	}
 }

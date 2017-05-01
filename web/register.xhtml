@@ -13,11 +13,21 @@
 		<c:choose>
 			<c:when test="#{!controlAutorizacion.sesionIniciada()}">
 				<h:form>
-					<h:inputText id="nombre" value="#{login.usuario}"/>
+					Nombre:
+					<h:inputText id="nombre" value="#{register.usuario.nombre}"/>
 					<br />
-					<h:inputSecret id="pass" value="#{login.contrasenia}"/>
+					Apellido:
+					<h:inputText id="apellido" value="#{register.usuario.nombre}"/>
 					<br />
-					<h:commandButton value="Iniciar Sesion" action="#{login.autenticar()}"/>
+					Contraseña:
+					<h:inputSecret id="pass" value="#{register.usuario.contrasena}"/>
+					<br />
+					<!--><h:inputSecret id="verPass" value="#{register.usuario.contrasena}"/>
+					<br /><-->
+					email:
+					<h:inputText id="email" value="#{register.usuario.email}"/>
+					<br />
+					<h:commandButton value="Registrar" action="#{register.registrar()}"/>
 				</h:form>
 			</c:when>
 			<c:otherwise>
